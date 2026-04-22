@@ -1,0 +1,19 @@
+*
+!.gitignore
+!README.md
+!main.py
+
+# python cache
+__pycache__/
+*.pyc
+
+# local env
+venv/
+
+# generated output
+*.pdf
+*.webp
+*.jpg
+*.jpeg
+*.png
+tmp-*/
