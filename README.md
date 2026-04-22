@@ -1,88 +1,100 @@
 # FLIPHTML5 Downloader
 
-Tool sederhana buat:
+A simple Python tool to download page images from FlipHTML5 publications and convert them into a PDF.
 
-1. download gambar halaman dari FlipHTML5
-2. support format modern kayak `.webp`
-3. convert hasilnya jadi PDF
+This project is designed to work with both older and newer FlipHTML5 structures, including modern page assets served as `.webp`.
 
-Semua fungsi ada di `main.py`.
+## Features
 
-## Install
+- Downloads page images from FlipHTML5 publications
+- Supports modern image formats such as `.webp`
+- Converts downloaded pages into a single PDF
+- Handles mixed image formats: `.webp`, `.jpg`, `.jpeg`, `.png`
+- Does not rely on only one legacy config path
+- Includes three modes:
+  - `download` — download page images only
+  - `pdf` — convert an existing image folder into PDF
+  - `all` — download pages and convert them to PDF in one step
 
-Disaranin pakai virtualenv:
+## Requirements
+
+Install dependencies with:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Fitur
+## How to get the book ID
 
-- support FlipHTML5 versi lama dan baru
-- gak cuma ngandelin `mobile/javascript/config.js`
-- bisa parse URL model baru `files/large/*.webp?...`
-- support output gambar `.webp`, `.jpg`, `.jpeg`, `.png`
-- bisa convert gambar campuran jadi PDF
-- ada mode:
-  - download
-  - pdf
-  - all
+Use the FlipHTML5 publication code as the `bookID`.
 
-## Cara pakai
+For example, from this URL:
 
-### Download gambar
+```text
+https://online.fliphtml5.com/zgfij/shiq/
+```
+
+the `bookID` is:
+
+```text
+zgfij/shiq
+```
+
+## Usage
+
+### 1. Download images
 
 ```bash
 python main.py download zgfij/shiq 1 10
 ```
 
-Opsi:
+Options:
 
-- `-n, --folderName` nama folder output
-- `-t, --threads` jumlah thread download
+- `-n, --folderName` — output folder name
+- `-t, --threads` — number of download threads
 
-Contoh:
-
-```bash
-python main.py download zgfij/shiq 1 20 -n buku-ku -t 12
-```
-
-### Convert gambar ke PDF
+Example:
 
 ```bash
-python main.py pdf zgfij-shiq 1 10
+python main.py download zgfij/shiq 1 20 -n my-book -t 12
 ```
 
-Opsi:
-
-- `-o, --output` nama/path file PDF
-
-Contoh:
+### 2. Convert downloaded images to PDF
 
 ```bash
-python main.py pdf buku-ku 1 20 -o hasil.pdf
+python main.py pdf my-book 1 10
 ```
 
-### Download lalu langsung convert ke PDF
+Options:
+
+- `-o, --output` — output PDF file name or path
+
+Example:
+
+```bash
+python main.py pdf my-book 1 20 -o my-book.pdf
+```
+
+### 3. Download and convert to PDF in one command
 
 ```bash
 python main.py all zgfij/shiq 1 10
 ```
 
-Opsi:
+Options:
 
-- `-n, --folderName` nama folder output
-- `-t, --threads` jumlah thread download
-- `-o, --output` nama/path file PDF
+- `-n, --folderName` — output folder name
+- `-t, --threads` — number of download threads
+- `-o, --output` — output PDF file name or path
 
-Contoh:
+Example:
 
 ```bash
-python main.py all zgfij/shiq 1 20 -n buku-ku -o buku-ku.pdf
+python main.py all zgfij/shiq 1 20 -n my-book -o my-book.pdf
 ```
 
 ## Notes
 
-- file hasil download disimpan pakai nomor halaman, misalnya `1.webp`, `2.webp`, dst
-- kalau format halaman campur, converter tetap jalan
-- hasil `.pdf` dan file gambar gak ikut ke-track karena udah di-ignore
+- Downloaded pages are saved using page numbers such as `1.webp`, `2.webp`, and so on.
+- If a publication uses mixed image formats, PDF conversion will still work.
+- Generated PDFs and downloaded images are ignored by Git via `.gitignore`.
